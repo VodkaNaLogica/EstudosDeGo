@@ -16,11 +16,41 @@ func main() {
 	familia = "amor"
 
 	fmt.Println("Olá, Go")
-	soma(2, 2)
-	fmt.Scanln()
+	soma(99, 15)
+
+	var inputIdade int
+	fmt.Print("\nDigite sua idade: ")
+	fmt.Scanln(&inputIdade)
+
+	faseDaVida(inputIdade)
 }
 
-func soma(a int, b int) int {
+func soma(a int, b int) {
 	fmt.Println(a + b)
-	return 0
+}
+
+func faseDaVida(idade int) {
+	if idade >= 18 {
+		if idade < 21 {
+			println("Adolecência tardia")
+		} else if idade < 39 {
+			println("Jovem adulto")
+		} else if idade < 59 {
+			println("Adulto")
+		} else {
+			println("Idoso")
+		}
+
+	} else {
+
+		if idade < 10 {
+			println("Criança")
+		} else if idade < 13 {
+			println("Pre-Adolecente")
+		} else {
+			println("Adolecente")
+		}
+
+	}
+
 }
