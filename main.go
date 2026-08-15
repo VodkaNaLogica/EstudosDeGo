@@ -19,43 +19,32 @@ const filosofia string = "Por que algo em vez de nada?"
 func main() {
 	familia = "amor"
 
-	//fmt.Println("Olá, Go")
-	//soma(99, 15)
+	fmt.Println("Olá, Go")
 
-	//var inputIdade int
-	//fmt.Print("\nDigite sua idade: ")
-	//fmt.Scanln(&inputIdade)
+	var numA int = rand.IntN(1000)
+	var numB int = rand.IntN(1000)
 
-	//faseDaVida(inputIdade)
+	fmt.Println(numA, " + ", numB)
 
-	var espaços string = ""
-	var tamanhoDaBase int = 10
+	soma(numA, numB)
 
-	for i := 0; i < tamanhoDaBase; i++ {
-		acumulado := "# "
+	var inputIdade int
+	fmt.Print("\nDigite sua idade: ")
+	fmt.Scanln(&inputIdade)
 
-		for n := tamanhoDaBase - 1; n >= i; n-- {
-			espaços += " "
-		}
-		if i == 0 {
-			resultado := espaços + "*"
-			fmt.Println(resultado)
-			espaços = strings.TrimSpace(espaços)
-		} else {
+	faseDaVida(inputIdade)
 
-			for j := 0; j < i; j++ {
-				if rand.IntN(4) == 0 {
-					acumulado += "O "
-				} else {
-					acumulado += "# "
-				}
-			}
+	var inputSimbolosDoTriangulo string
 
-			resultado := espaços + acumulado
-			fmt.Println(resultado)
-			espaços = strings.TrimSpace(espaços)
-		}
-	}
+	fmt.Print("\nDigite o simbolo desejado para a construção do triangulo: ")
+	fmt.Scanln(&inputSimbolosDoTriangulo)
+
+	var inputBaseDoTriangulo int
+
+	fmt.Print("\nDigite o tamanho da base do tringulo desejada: ")
+	fmt.Scanln(&inputBaseDoTriangulo)
+
+	CriarTriangulo(inputBaseDoTriangulo, inputSimbolosDoTriangulo)
 
 	fmt.Scanln()
 }
@@ -88,4 +77,21 @@ func faseDaVida(idade int) {
 
 	}
 
+}
+
+func CriarTriangulo(tamanhoDaBase int, SimbolosDoTriangulo string) {
+	var simbolo string = strings.TrimSpace(SimbolosDoTriangulo)
+
+	for i := 0; i < tamanhoDaBase; i++ {
+		espaçoAlinhador := strings.Repeat(strings.Repeat(" ", len(simbolo)), tamanhoDaBase-i)
+		espaçoEntreSimbolo := strings.Repeat(" ", len(simbolo))
+		var acumulado strings.Builder
+
+		for j := 0; j < i+1; j++ {
+			acumulado.WriteString(simbolo)
+			acumulado.WriteString(espaçoEntreSimbolo)
+		}
+
+		fmt.Println(espaçoAlinhador, acumulado.String())
+	}
 }
