@@ -24,9 +24,7 @@ func main() {
 	var numA int = rand.IntN(1000)
 	var numB int = rand.IntN(1000)
 
-	fmt.Println(numA, " + ", numB)
-
-	soma(numA, numB)
+	fmt.Println(numA, " + ", numB, " = ", soma(numA, numB))
 
 	var inputIdade int
 	fmt.Print("\nDigite sua idade: ")
@@ -49,8 +47,9 @@ func main() {
 	fmt.Scanln()
 }
 
-func soma(a int, b int) {
+func soma(a int, b int) int {
 	fmt.Println(a + b)
+	return a + b
 }
 
 func faseDaVida(idade int) {
