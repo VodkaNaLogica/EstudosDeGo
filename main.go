@@ -33,6 +33,10 @@ type Pessoa struct {
 	Endereco Endereco
 }
 
+var numeroLegalParaOPonteiro int = 721651
+
+var ponteiro *int = &numeroLegalParaOPonteiro
+
 var familia string
 
 const filosofia string = "Por que algo em vez de nada?"
@@ -91,6 +95,12 @@ func main() {
 
 	fmt.Println(pessoa.Endereco.Cidade)
 	fmt.Println(pessoa.Endereco.Estado)
+
+	fmt.Println(*ponteiro)
+	*ponteiro = 15
+	fmt.Println(*ponteiro)
+
+	fmt.Println(pessoaEu())
 
 	var numA int = rand.IntN(1000)
 	var numB int = rand.IntN(1000)
@@ -214,4 +224,8 @@ func CriarTriangulo(tamanhoDaBase int, SimbolosDoTriangulo string) {
 
 		fmt.Println(espaçoAlinhador, acumulado.String())
 	}
+}
+
+func pessoaEu() (string, int) {
+	return "resultado da função( pessoaEu() ) que devolve duas coisas: Pablo", 15
 }
