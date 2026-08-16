@@ -8,7 +8,7 @@ import (
 
 var nome string = "Pablo"
 var idade int = 15
-var ativo bool = true
+var ativo bool = false
 
 const pi float64 = 355 / 113
 
@@ -20,17 +20,30 @@ func main() {
 	familia = "amor"
 
 	fmt.Println("Olá, Go")
+	fmt.Println("Meu nome é", nome)
+	fmt.Println("Eu tenho", idade, "anos de idade")
+	fmt.Println("Esse programa vai acabar nessa apresentação:", ativo)
 
 	var numA int = rand.IntN(1000)
 	var numB int = rand.IntN(1000)
 
 	fmt.Println(numA, " + ", numB, " = ", soma(numA, numB))
 
-	var inputIdade int
-	fmt.Print("\nDigite sua idade: ")
-	fmt.Scanln(&inputIdade)
+	for {
+		fmt.Print("\nDigite sua idade: ")
 
-	faseDaVida(inputIdade)
+		var inputIdade float32
+		_, err := fmt.Scanln(&inputIdade)
+
+		if err == nil {
+			faseDaVida(inputIdade)
+			break
+		}
+		var lixo string
+		fmt.Scanln(&lixo)
+
+		println("Digite um número válido")
+	}
 
 	var inputSimbolosDoTriangulo string
 
@@ -39,20 +52,59 @@ func main() {
 
 	var inputBaseDoTriangulo int
 
-	fmt.Print("\nDigite o tamanho da base do tringulo desejada: ")
-	fmt.Scanln(&inputBaseDoTriangulo)
+	for {
+		fmt.Print("\nDigite o tamanho da base do tringulo desejada: ")
+
+		_, err := fmt.Scanln(&inputBaseDoTriangulo)
+
+		if err == nil {
+			break
+		}
+		var lixo string
+		fmt.Scanln(&lixo)
+
+		println("Digite um número válido")
+	}
 
 	CriarTriangulo(inputBaseDoTriangulo, inputSimbolosDoTriangulo)
+
+	var burriceDoUsuario int = 0
+
+LoopVermelho:
+	for {
+		var gostarDeVermelho string
+
+		fmt.Print("\nVocê gosta de vermelho? ")
+		fmt.Scanln(&gostarDeVermelho)
+
+		switch gostarDeVermelho {
+		case "sim":
+			println("Você é amigo")
+			break LoopVermelho
+		case "não", "nao":
+			println("Você é inimigo")
+			break LoopVermelho
+		default:
+			if burriceDoUsuario == 2 {
+				println("\nVocê é burro? ")
+			} else if burriceDoUsuario == 4 {
+				println("Eu não mereço isso, adeus")
+				break LoopVermelho
+			} else {
+				println("Digite uma resposta de verdade eu só entendo sim ou não")
+			}
+			burriceDoUsuario += 1
+		}
+	}
 
 	fmt.Scanln()
 }
 
 func soma(a int, b int) int {
-	fmt.Println(a + b)
 	return a + b
 }
 
-func faseDaVida(idade int) {
+func faseDaVida(idade float32) {
 	if idade >= 18 {
 		if idade < 21 {
 			println("Adolecência tardia")
@@ -65,8 +117,9 @@ func faseDaVida(idade int) {
 		}
 
 	} else {
-
-		if idade < 10 {
+		if idade < 1 {
+			println("Como você ta me respondendo?")
+		} else if idade < 10 {
 			println("Criança")
 		} else if idade < 13 {
 			println("Pre-Adolecente")
