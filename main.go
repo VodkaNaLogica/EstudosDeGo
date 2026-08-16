@@ -21,6 +21,18 @@ var idades = map[string]int{
 	"Pedro": 17,
 }
 
+type Endereco struct {
+	Cidade string
+	Estado string
+}
+
+type Pessoa struct {
+	Nome     string
+	Idade    int
+	Altura   float32
+	Endereco Endereco
+}
+
 var familia string
 
 const filosofia string = "Por que algo em vez de nada?"
@@ -63,6 +75,22 @@ func main() {
 	} else {
 		fmt.Println("Não encontrado")
 	}
+
+	pessoa := Pessoa{
+		Nome:   "Heitor",
+		Idade:  59,
+		Altura: 1.67,
+		Endereco: Endereco{
+			Cidade: "São Paulo",
+			Estado: "SP",
+		},
+	}
+	fmt.Println(pessoa.Nome)
+	fmt.Println(pessoa.Idade)
+	fmt.Println(pessoa.Altura)
+
+	fmt.Println(pessoa.Endereco.Cidade)
+	fmt.Println(pessoa.Endereco.Estado)
 
 	var numA int = rand.IntN(1000)
 	var numB int = rand.IntN(1000)
