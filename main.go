@@ -7,7 +7,7 @@ import (
 )
 
 var nome string = "Pablo"
-var idade int = 15
+var idadeMinha int = 15
 var ativo bool = false
 
 const pi float64 = 355.0 / 113.0
@@ -37,6 +37,40 @@ var numeroLegalParaOPonteiro int = 721651
 
 var ponteiro *int = &numeroLegalParaOPonteiro
 
+type Animal interface {
+	FazerSom()
+}
+
+type Cachorro struct{}
+
+func (Cachorro) FazerSom() {
+	fmt.Println("Au au")
+}
+
+type Gato struct{}
+
+func (Gato) FazerSom() {
+	fmt.Println("Miau")
+}
+
+type Pato struct{}
+
+func (Pato) FazerSom() {
+	fmt.Println("Quack")
+}
+
+func EmitirSom(a Animal) {
+	a.FazerSom()
+}
+
+func (p Pessoa) Apresentar() {
+	fmt.Println(p.Nome)
+	fmt.Println(p.Idade)
+	fmt.Println(p.Altura)
+	fmt.Println(p.Endereco.Cidade)
+	fmt.Println(p.Endereco.Estado)
+}
+
 var familia string
 
 const filosofia string = "Por que algo em vez de nada?"
@@ -45,8 +79,14 @@ func main() {
 	familia = "amor"
 
 	fmt.Println("Olá, Go")
+
+	Gato{}.FazerSom()
+	EmitirSom(Cachorro{})
+	Pato{}.FazerSom()
+	EmitirSom(Pato{})
+
 	fmt.Println("Meu nome é", nome)
-	fmt.Println("Eu tenho", idade, "anos de idade")
+	fmt.Println("Eu tenho", idadeMinha, "anos de idade")
 	fmt.Println("Esse programa vai acabar nessa apresentação:", ativo)
 	fmt.Printf("PI e aproximadamente: %.7f\n", pi)
 
@@ -96,10 +136,20 @@ func main() {
 	fmt.Println(pessoa.Endereco.Cidade)
 	fmt.Println(pessoa.Endereco.Estado)
 
+	pessoa.Apresentar()
+
+	fmt.Println(ponteiro)
 	fmt.Println(*ponteiro)
 	*ponteiro = 15
 	fmt.Println(*ponteiro)
 
+	EuNome, EuIdade := pessoaEu()
+
+	if EuIdade < 18 {
+		println("\nTo aprendendo como eu iria voltar o status de uma função e tratar ele;\n Esse EuIdade que ta voltando do pessoaEu() poderia ser o status como um: 200, 201, 404, 500 ou qualquer outro\n ai eu posso substituir deboa aquele metodo de dar return retornando um dicionario\n agora cada um pode ser colocado em uma variavel\n")
+	}
+
+	fmt.Println(EuNome, EuIdade)
 	fmt.Println(pessoaEu())
 
 	var numA int = rand.IntN(1000)
