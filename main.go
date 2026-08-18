@@ -1,6 +1,7 @@
 package main
 
 import (
+	"errors"
 	"fmt"
 	"math/rand/v2"
 	"strings"
@@ -157,6 +158,14 @@ func main() {
 
 	fmt.Println(numA, " + ", numB, " = ", soma(numA, numB))
 
+	resultadoDaDivisao, erro := divisao(numA, numB)
+
+	if erro != nil {
+		fmt.Println("Erro:", erro)
+	} else {
+		fmt.Println(resultadoDaDivisao)
+	}
+
 	for {
 		fmt.Print("\nDigite sua idade: ")
 
@@ -230,6 +239,13 @@ LoopVermelho:
 
 func soma(a int, b int) int {
 	return a + b
+}
+
+func divisao(a, b int) (float64, error) {
+	if b == 0 {
+		return 0, errors.New("Pecado da matematica identificado: Não dividiras por zero;")
+	}
+	return float64(a) / float64(b), nil
 }
 
 func faseDaVida(idade float32) {
