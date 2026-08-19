@@ -138,6 +138,8 @@ func main() {
 		fmt.Println("Não encontrado")
 	}
 
+	fmt.Println(arquivoDiferenteMesmaPackage())
+
 	pessoa := Pessoa{
 		Nome:   "Heitor",
 		Idade:  59,
