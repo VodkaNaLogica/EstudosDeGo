@@ -72,11 +72,28 @@ func (p Pessoa) Apresentar() {
 	fmt.Println(p.Endereco.Estado)
 }
 
+func aprenderDefer() {
+	defer fmt.Println("3")
+	defer EmitirSom(Pato{})
+
+	fmt.Println("defer funciona em pilha então o ultimo que eu\ncoloquei e o primeiro que vai ser executado")
+}
+
 var familia string
 
 const filosofia string = "Por que algo em vez de nada?"
 
 func main() {
+	defer func() {
+		if r := recover(); r != nil {
+			fmt.Println("Panic recuperado:", r)
+		}
+	}()
+
+	//panic("Você é o Pablo original, esse programa não tem permissão para rodar em sua presença")
+	// Use panic quando continuar a execução naquele estado significa que o programa está em uma
+	// situaçõa inválida e não há uma recuperação normal naquele ponto.
+
 	familia = "amor"
 
 	fmt.Println("Olá, Go")
@@ -84,12 +101,12 @@ func main() {
 	Gato{}.FazerSom()
 	EmitirSom(Cachorro{})
 	Pato{}.FazerSom()
-	EmitirSom(Pato{})
+	aprenderDefer()
 
 	fmt.Println("Meu nome é", nome)
 	fmt.Println("Eu tenho", idadeMinha, "anos de idade")
 	fmt.Println("Esse programa vai acabar nessa apresentação:", ativo)
-	fmt.Printf("PI e aproximadamente: %.7f\n", pi)
+	fmt.Printf("PI é aproximadamente: %.7f\n", pi)
 
 	for i := 0; i < len(arrayA); i++ {
 		println(arrayA[i])
