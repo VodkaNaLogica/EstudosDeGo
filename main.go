@@ -5,7 +5,11 @@ import (
 	"fmt"
 	"math/rand/v2"
 	"strings"
+	"sync"
 )
+
+var mutex sync.Mutex
+var wg sync.WaitGroup
 
 var nome string = "Pablo"
 var idadeMinha int = 15
@@ -79,9 +83,17 @@ func aprenderDefer() {
 	fmt.Println("defer funciona em pilha então o ultimo que eu\ncoloquei e o primeiro que vai ser executado")
 }
 
+var canal = make(chan string)
+
+func enviarMensagemPorChannel() {
+	canal <- "Olá, isso é uma mensagem entre goroutines"
+}
+
 var familia string
 
 const filosofia string = "Por que algo em vez de nada?"
+
+var saldo int = 100
 
 func main() {
 	defer func() {
@@ -101,7 +113,12 @@ func main() {
 	Gato{}.FazerSom()
 	EmitirSom(Cachorro{})
 	Pato{}.FazerSom()
-	aprenderDefer()
+	go aprenderDefer() // faz a função aprenderDefer() executar concorrentemente
+
+	go enviarMensagemPorChannel()
+
+	mensagem := <-canal
+	println(mensagem)
 
 	fmt.Println("Meu nome é", nome)
 	fmt.Println("Eu tenho", idadeMinha, "anos de idade")
@@ -157,6 +174,11 @@ func main() {
 	fmt.Println(pessoa.Endereco.Estado)
 
 	pessoa.Apresentar()
+
+	wg.Add(2)
+
+	alteraSaldoA()
+	alteraSaldoB()
 
 	fmt.Println(ponteiro)
 	fmt.Println(*ponteiro)
@@ -253,6 +275,7 @@ LoopVermelho:
 		}
 	}
 
+	wg.Wait()
 	fmt.Scanln()
 }
 
@@ -313,4 +336,22 @@ func CriarTriangulo(tamanhoDaBase int, SimbolosDoTriangulo string) {
 
 func pessoaEu() (string, int) {
 	return "resultado da função( pessoaEu() ) que devolve duas coisas: Pablo", 15
+}
+
+func alteraSaldoA() {
+	mutex.Lock()
+	defer mutex.Unlock()
+	defer wg.Done()
+	saldo -= 20
+	println(saldo)
+}
+
+// Isso vai ser muito util quando eu voltar a fazer backend
+
+func alteraSaldoB() {
+	mutex.Lock()
+	defer mutex.Unlock()
+	defer wg.Done()
+	saldo -= 20
+	println(saldo)
 }
