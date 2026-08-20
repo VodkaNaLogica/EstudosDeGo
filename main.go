@@ -1,9 +1,11 @@
 package main
 
 import (
+	"bufio"
 	"errors"
 	"fmt"
 	"math/rand/v2"
+	"os"
 	"strings"
 	"sync"
 )
@@ -86,7 +88,7 @@ func aprenderDefer() {
 var canal = make(chan string)
 
 func enviarMensagemPorChannel() {
-	canal <- "Olá, isso é uma mensagem entre goroutines"
+	canal <- "Olá, isso é uma mensagem entre goroutines\n"
 }
 
 var familia string
@@ -94,6 +96,8 @@ var familia string
 const filosofia string = "Por que algo em vez de nada?"
 
 var saldo int = 100
+
+var textoTeste string = "Texto teste: ABCDEFG, abcdefg"
 
 func main() {
 	defer func() {
@@ -109,6 +113,22 @@ func main() {
 	familia = "amor"
 
 	fmt.Println("Olá, Go")
+
+	println(textoTeste)
+	textoTesteFormatado := strings.Contains(textoTeste, "A")
+	println(textoTesteFormatado)
+	textoTesteFormatado = strings.HasPrefix(textoTeste, "Texto")
+	println(textoTesteFormatado)
+	textoTesteFormatado = strings.HasSuffix(textoTeste, "defg")
+	println(textoTesteFormatado)
+
+	textoTesteSplitEJoin := strings.Split(textoTeste, ",")
+	fmt.Println(textoTesteSplitEJoin[0], textoTesteSplitEJoin[1])
+	fmt.Println(strings.Join([]string{"Go", "é", "legal"}, " "))
+	fmt.Println(strings.Join(textoTesteSplitEJoin, ","))
+
+	textoTesteReplaceEReplaceAll := ""
+	fmt.Println(textoTesteReplaceEReplaceAll)
 
 	Gato{}.FazerSom()
 	EmitirSom(Cachorro{})
@@ -185,6 +205,27 @@ func main() {
 	*ponteiro = 15
 	fmt.Println(*ponteiro)
 
+	dados, err := os.ReadFile("arquivo.txt")
+	if err != nil {
+		fmt.Println("Erro:", err)
+	} else {
+		fmt.Println(string(dados))
+	}
+
+	texto := "Criar arquivo de log temporario e quando o programa acabar ele e deletado"
+
+	ErroDeEscrita := os.WriteFile("log.txt", []byte(texto), 0644)
+	if ErroDeEscrita != nil {
+		fmt.Println("Erro ao criar o log:", ErroDeEscrita)
+	}
+	textoDoLog, err := os.ReadFile("log.txt")
+	if err != nil {
+		fmt.Println("Erro:", err)
+	} else {
+		fmt.Println(string(textoDoLog))
+	}
+	defer os.Remove("log.txt")
+
 	EuNome, EuIdade := pessoaEu()
 
 	if EuIdade < 18 {
@@ -250,10 +291,11 @@ func main() {
 
 LoopVermelho:
 	for {
-		var gostarDeVermelho string
+		scanner := bufio.NewScanner(os.Stdin)
 
 		fmt.Print("\nVocê gosta de vermelho? ")
-		fmt.Scanln(&gostarDeVermelho)
+		scanner.Scan()
+		var gostarDeVermelho string = scanner.Text()
 
 		switch strings.ToLower(gostarDeVermelho) {
 		case "sim":
@@ -262,6 +304,8 @@ LoopVermelho:
 		case "não", "nao":
 			println("Você é inimigo")
 			break LoopVermelho
+		case "vermelho é vida":
+			panic("Você é o Pablo original não tenho iluminação o\nsuficiente para executar em sua presença meu lorde")
 		default:
 			if burriceDoUsuario == 2 {
 				println("\nVocê é burro? ")
@@ -347,6 +391,7 @@ func alteraSaldoA() {
 }
 
 // Isso vai ser muito util quando eu voltar a fazer backend
+// e tiver race condition pra resolver
 
 func alteraSaldoB() {
 	mutex.Lock()

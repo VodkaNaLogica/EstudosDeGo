@@ -1,0 +1,1 @@
+Criar arquivo de log temporario e quando o programa acabar ele e deletado

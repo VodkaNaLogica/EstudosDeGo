@@ -1,0 +1,1 @@
+Esse é um arquivo que vai ser lida pelo Go usando os 
